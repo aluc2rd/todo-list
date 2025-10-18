@@ -4,6 +4,7 @@ const tasksList = document.querySelector('#tasksList');
 const emptyList = document.querySelector('#emptyList');
 
 let tasks = [];
+checkEmptyList();
 
 form.addEventListener('submit', addTask);
 tasksList.addEventListener('click', deleteTask);
@@ -48,10 +49,7 @@ function addTask(event) {
 	taskInput.value = '';
 	taskInput.focus();
 
-	/*проверка на пустоту списка*/
-	if (tasksList.children.length > 1) {
-		emptyList.classList.add('none'); /*добавлен класс на скрытие из CSS*/
-	}
+	checkEmptyList();
 }
 
 function deleteTask(event) {
@@ -62,16 +60,12 @@ function deleteTask(event) {
 
 	const id = Number(parentNode.id); /*т.к. далее придется сравнивать строку и число, а этого избегаем*/
 
-	const index = tasks.findIndex((task) => task.id === id);
-
-	tasks.splice(index, 1);
+	/*версия через фильтрацию*/
+	tasks = tasks.filter((task) => task.id !== id);
 
 	parentNode.remove();
 
-	/*проверка на пустоту и вывод сообщения об этом*/
-	if (tasksList.children.length === 1) {
-		emptyList.classList.remove('none');
-	}
+	checkEmptyList();
 }
 
 function doneTask(event) {
@@ -79,8 +73,29 @@ function doneTask(event) {
 	if (event.target.dataset.action !== 'done') return;
 
 	const parentNode = event.target.closest('list-group-item'); /*родительский li*/
+
+	//определение id задачи
+	const id = Number(parentNode.id);
+	const task = tasks.find((task) => task.id === id);
+	task.done = !task.done; //смена состояния
+
 	/*поиск внутри*/
 	const taskTitle = parentNode.querySelector('task-title');
 	/*добавление или удаление класса с помощью toggle*/
 	taskTitle.classList.toggle('task-title--done');
+}
+
+function checkEmptyList() {
+	if (tasks.length === 0) {
+		const emptyListHTML = `<li id="emptyList" class="list-group-item empty-list">
+									<img src="./img/leaf.svg" alt="Empty" width="48" class="mt-3">
+									<div class="empty-list__title">Список дел пуст</div>
+								</li>`;
+		tasksList.insertAdjacentHTML('afterbegin', emptyListHTML);
+	}
+
+	if (tasks.length > 0) {
+		const emptyListEl = document.querySelector('#emptyList');
+		emptyListEl ? emptyListEl.remove() : null;
+	}
 }
