@@ -1,98 +1,179 @@
-html,
+:root {
+	--primary-sand: #d6cc6b;
+	--sand-light: #e3dc9a;
+	--sand-lighter: #f0edca;
+	--sand-soft: #f8f6e9;
+	--sand-dark: #c4bb5e;
+	--sand-darker: #a89f4d;
+	--accent-olive: #a8a85a;
+	--accent-warm: #d6bc6b;
+	--text-soft: #5a5740;
+	--text-muted: #7a7755;
+	--border-soft: #d6d2b5;
+	--cream: #fefdf6;
+}
+
 body {
+	background: linear-gradient(135deg, var(--sand-soft) 0%, var(--sand-lighter) 50%, var(--primary-sand) 100%);
+	color: var(--text-soft);
+	font-family: 'Inter', 'Segoe UI', sans-serif;
+	padding-top: 40px;
 	min-height: 100vh;
 }
 
-body {
-	background-color: #e4e5e7;
-	padding-top: 30px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
+.container {
+	max-width: 600px;
 }
-.aside {
-	height: 400px;
-}
-.main {
-	height: 400px;
-}
-.d-flex {
-	display: flex;
-}
-.task-title {
-	font-weight: 400;
-	padding-top: 5px;
-}
-.gray {
-	color: #bdbdbd;
-}
-.task-title--done {
-	text-decoration: line-through;
-	color: #cdcdcd;
-}
-.task-item__buttons {
-	display: flex;
-	column-gap: 5px;
-}
-.notify-holder {
-	height: 60px;
-	margin-bottom: 20px;
-}
-.empty-list {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding-top: 1em;
-	padding-bottom: 1em;
-}
-.empty-list__title {
-	font-size: 28px;
-	margin-bottom: 15px;
-	font-weight: 300;
-}
-.empty-list__icon {
-	color: #42be2a;
-	font-size: 32px;
-}
-.btn-action {
-	background-color: #e0e5ea;
-	padding: 8px 10px;
-	cursor: pointer;
-	border: 0;
-	border-radius: 4px;
-	transition: opacity 0.2s ease-in;
-	opacity: 0.5;
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.card {
+	background-color: rgba(254, 253, 246, 0.95);
+	border: none;
+	border-radius: 16px;
+	box-shadow: 0 8px 32px rgba(90, 87, 64, 0.1);
+	margin-bottom: 24px;
+	border: 1px solid rgba(214, 210, 181, 0.4);
+}
+
+.card-header {
+	background: linear-gradient(135deg, var(--sand-light), var(--primary-sand));
+	border-bottom: 1px solid var(--border-soft);
+	color: var(--text-soft);
+	font-weight: 500;
+	padding: 18px 24px;
+	border-radius: 16px 16px 0 0 !important;
+}
+
+.display-4 {
+	color: var(--text-soft);
+	font-weight: 350;
+	margin-bottom: 8px;
+}
+
+.h4 {
+	color: var(--text-muted);
+	font-weight: 350;
+	font-size: 1.2rem;
+}
+
+/* список задач */
+.list-group-item {
+	border: none;
+	border-bottom: 1px solid rgba(214, 210, 181, 0.4);
+	padding: 16px 24px;
+	background-color: transparent;
+	transition: all 0.2s ease;
+}
+
+.list-group-item:hover {
+	background-color: rgba(240, 237, 202, 0.4);
+}
+
+.list-group-item:last-child {
+	border-bottom: none;
+}
+
+.task-title {
+	color: var(--text-soft);
+	font-weight: 400;
+	padding: 4px 0;
+}
+
+.task-title--done {
+	color: var(--text-muted);
+	text-decoration: line-through;
+	opacity: 0.7;
+}
+
+/* кнопки действий */
+.btn-action {
+	background: var(--sand-light);
+	border: 1px solid var(--border-soft);
+	border-radius: 8px;
+	padding: 8px 10px;
+	transition: all 0.2s ease;
+	opacity: 0.8;
 }
 
 .btn-action:hover {
-	background-color: #e0e5ea;
 	opacity: 1;
+	background: var(--primary-sand);
 }
 
-.btn-action img {
-	pointer-events: none; /*снятие событий с картинки*/
+.btn-primary {
+	background-color: var(--primary-sand) !important;
+	border-color: var(--sand-dark) !important;
+	color: var(--text-soft) !important;
+	border-radius: 10px;
+	padding: 12px 30px;
+	font-weight: 500;
+	transition: all 0.2s ease;
+	box-shadow: 0 2px 8px rgba(182, 173, 96, 0.2);
 }
 
-.none {
-	display: none !important;
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+	background-color: var(--sand-dark) !important;
+	border-color: var(--sand-darker) !important;
+	color: var(--text-soft) !important;
+	box-shadow: 0 4px 12px rgba(182, 173, 96, 0.3);
 }
 
-.float-right {
-	float: right;
+/* убираю синие обводки при фокусе */
+.btn-primary:focus {
+	box-shadow: 0 0 0 0.2rem rgba(214, 204, 107, 0.25) !important;
 }
-.copyright {
-	margin-top: 40px;
-	font-size: 14px;
-	color: gray;
-	text-align: center;
-	margin-bottom: 30px;
-	/* position: absolute; */
-	/* bottom: 30px; */
-	/* left: 0; */
-	/* right: 0; */
+
+/* форма */
+.form-control {
+	border: 1px solid var(--border-soft);
+	border-radius: 10px;
+	padding: 14px 18px;
+	background-color: var(--sand-lighter);
+	color: var(--text-soft);
+	font-size: 1rem;
+	transition: all 0.2s ease;
+}
+
+.form-control:focus {
+	border-color: var(--primary-sand);
+	box-shadow: 0 0 0 2px rgba(214, 204, 107, 0.2);
+	background-color: white;
+}
+
+.form-control::placeholder {
+	color: var(--text-muted);
+	opacity: 0.6;
+}
+
+.form-text {
+	color: var(--text-muted);
+	font-size: 0.9rem;
+}
+
+/* пустой список */
+.empty-list {
+	color: var(--text-muted);
+	padding: 50px 20px;
+	opacity: 0.8;
+}
+
+.empty-list__title {
+	font-weight: 350;
+	margin-top: 16px;
+	font-size: 1.3rem;
+}
+
+/* дополнительные стили */
+.card-body {
+	padding: 24px;
+}
+
+.list-group-flush .list-group-item {
+	padding-left: 24px;
+	padding-right: 24px;
+}
+
+.task-item__buttons {
+	gap: 8px;
 }
