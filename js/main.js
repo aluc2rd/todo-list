@@ -35,9 +35,6 @@ function addTask(event) {
 
 	renderTask(newTask);
 
-	/*добавление задачи на страницу*/
-	tasksList.insertAdjacentHTML('beforeend', taskHTML);
-
 	/*очистка поля ввода и фокус на него*/
 	taskInput.value = '';
 	taskInput.focus();
@@ -49,7 +46,7 @@ function deleteTask(event) {
 	/*клик не по кноке удаления*/
 	if (event.target.dataset.action !== 'delete') return; /*функция закончит свою работу*/
 
-	const parentNode = event.target.closest('list-group-item');
+	const parentNode = event.target.closest('.list-group-item');
 
 	const id = Number(parentNode.id); /*т.к. далее придется сравнивать строку и число, а этого избегаем*/
 
@@ -67,7 +64,7 @@ function doneTask(event) {
 	/*клик не по кноке выполнения*/
 	if (event.target.dataset.action !== 'done') return;
 
-	const parentNode = event.target.closest('list-group-item'); /*родительский li*/
+	const parentNode = event.target.closest('.list-group-item'); /*родительский li*/
 
 	//определение id задачи
 	const id = Number(parentNode.id);
@@ -77,7 +74,7 @@ function doneTask(event) {
 	saveToLocalStorage();
 
 	/*поиск внутри*/
-	const taskTitle = parentNode.querySelector('task-title');
+	const taskTitle = parentNode.querySelector('.task-title');
 	/*добавление или удаление класса с помощью toggle*/
 	taskTitle.classList.toggle('task-title--done');
 }
