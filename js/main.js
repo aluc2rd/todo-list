@@ -4,6 +4,12 @@ const tasksList = document.querySelector('#tasksList');
 const emptyList = document.querySelector('#emptyList');
 
 let tasks = [];
+
+if (localStorage.getItem('tasks')) {
+	tasks = JSON.parse(localStorage.getItem('tasks'));
+	tasks.forEach((task) => renderTask(task));
+}
+
 checkEmptyList();
 
 form.addEventListener('submit', addTask);
@@ -25,22 +31,9 @@ function addTask(event) {
 
 	tasks.push(newTask); /*добавление в массив новой задачи*/
 
-	/*формирование CSS класса*/
-	const cssClass = newTask.done ? 'task-title task-title--done' : 'task-title';
+	saveToLocalStorage(); //хранилище
 
-	/*HTML разметка для новой задачи с применением интерполяции*/
-	const taskHTML = `
-					<li id="${newTask.id}" class="list-group-item d-flex justify-content-between task-item">
-						<span class="${cssClass}">${newTask.text}</span>
-						<div class="task-item__buttons">
-							<button type="button" data-action="done" class="btn-action">
-								<img src="./img/tick.svg" alt="Done" width="18" height="18" />
-							</button>
-							<button type="button" data-action="delete" class="btn-action">
-								<img src="./img/cross.svg" alt="Done" width="18" height="18" />
-							</button>
-						</div>
-					</li>`;
+	renderTask(newTask);
 
 	/*добавление задачи на страницу*/
 	tasksList.insertAdjacentHTML('beforeend', taskHTML);
@@ -63,6 +56,8 @@ function deleteTask(event) {
 	/*версия через фильтрацию*/
 	tasks = tasks.filter((task) => task.id !== id);
 
+	saveToLocalStorage();
+
 	parentNode.remove();
 
 	checkEmptyList();
@@ -78,6 +73,8 @@ function doneTask(event) {
 	const id = Number(parentNode.id);
 	const task = tasks.find((task) => task.id === id);
 	task.done = !task.done; //смена состояния
+
+	saveToLocalStorage();
 
 	/*поиск внутри*/
 	const taskTitle = parentNode.querySelector('task-title');
@@ -98,4 +95,30 @@ function checkEmptyList() {
 		const emptyListEl = document.querySelector('#emptyList');
 		emptyListEl ? emptyListEl.remove() : null;
 	}
+}
+
+function saveToLocalStorage() {
+	//пара ключ значение
+	localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function renderTask(task) {
+	const cssClass = task.done ? 'task-title task-title--done' : 'task-title';
+
+	/*HTML разметка для новой задачи с применением интерполяции*/
+	const taskHTML = `
+					<li id="${task.id}" class="list-group-item d-flex justify-content-between task-item">
+						<span class="${cssClass}">${task.text}</span>
+						<div class="task-item__buttons">
+							<button type="button" data-action="done" class="btn-action">
+								<img src="./img/tick.svg" alt="Done" width="18" height="18" />
+							</button>
+							<button type="button" data-action="delete" class="btn-action">
+								<img src="./img/cross.svg" alt="Done" width="18" height="18" />
+							</button>
+						</div>
+					</li>`;
+
+	/*добавление задачи на страницу*/
+	tasksList.insertAdjacentHTML('beforeend', taskHTML);
 }
