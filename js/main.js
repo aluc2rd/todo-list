@@ -48,6 +48,9 @@ function deleteTask(event) {
 
 	const parentNode = event.target.closest('.list-group-item');
 
+	// не emptyList элемент
+	if (!parentNode || parentNode.id === 'emptyList') return;
+
 	const id = Number(parentNode.id); /*т.к. далее придется сравнивать строку и число, а этого избегаем*/
 
 	/*версия через фильтрацию*/
